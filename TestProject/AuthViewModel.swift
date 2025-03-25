@@ -11,7 +11,7 @@ class AuthViewModel: ObservableObject {
     @Published var isAuthenticated: Bool = false
     
     @Published var errorMessage: String?
-    
+    //if user logged in and left the app without logging out and they came back they will go to home page insted tp be asked to log in again
     init() {
             checkUserLoggedIn()
         }
