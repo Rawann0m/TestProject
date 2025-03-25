@@ -12,7 +12,7 @@ struct LoginView: View {
     @State var password: String = ""
     var body: some View {
         NavigationStack{
-                
+                //log in page
                 VStack{
                     Image("lock")
                         .resizable()
@@ -22,22 +22,22 @@ struct LoginView: View {
                         .font(.largeTitle)
                         .bold()
                         .padding()
-                    
+                    //email text field
                     TextField("Email", text: $email)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                         .autocapitalization(.none)
-                    
+                    // password
                     SecureField("Password", text: $password)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
-                    
+                    //handling errors
                     if let errorMessage = auth.errorMessage {
                         Text(errorMessage)
                             .foregroundColor(.red)
                             .padding()
                     }
-                    
+                    //button to call the log in function
                     Button(action: {auth.logIn(email: email, password: password)}) {
                         Text("Log In")
                             .frame(maxWidth: .infinity)
@@ -47,15 +47,16 @@ struct LoginView: View {
                             .cornerRadius(10)
                     }
                     .padding()
-                    
+                    // navigation to sign up page in case the user doesnt have an account
                     NavigationLink("You don't have an account? Sign Up", destination: SignupView(auth: auth))
                         .padding()
                 }
                 .padding(.horizontal)
-
+            // Presents HomeView as a full screen modal when the user is authenticated
                     .fullScreenCover(isPresented: $auth.isAuthenticated) {
                         HomeView(auth: auth)
                     }
+            // clear out errors
                     .onAppear {
                         auth.clearError()
                     }

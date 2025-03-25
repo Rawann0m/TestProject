@@ -12,7 +12,7 @@ struct SignupView: View {
     @State var password: String = ""
     var body: some View {
         NavigationStack{
-            
+            // signup screen
             VStack{
                 Image("lock")
                     .resizable()
@@ -22,22 +22,22 @@ struct SignupView: View {
                     .font(.largeTitle)
                     .bold()
                     .padding()
-                
+                //email text field
                 TextField("Email", text: $email)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
                     .autocapitalization(.none)
-                
+                // password
                 SecureField("Password", text: $password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
-                
+                //handling errors
                 if let errorMessage = auth.errorMessage {
                     Text(errorMessage)
                         .foregroundColor(.red)
                         .padding()
                 }
-                
+                //button to call the signup function
                 Button(action: {auth.signUp(email: email, password: password)}) {
                     Text("Sign Up")
                         .frame(maxWidth: .infinity)
@@ -47,14 +47,15 @@ struct SignupView: View {
                         .cornerRadius(10)
                 }
                 .padding()
-                
+                // navigation to log in page in case the user have an account
                 NavigationLink("You have an account? LogIn", destination: LoginView(auth: auth))
                     .padding()
             }.padding(.horizontal)
-            
+            // Presents HomeView as a full screen modal when the user is authenticated
                 .fullScreenCover(isPresented: $auth.isAuthenticated) {
                     HomeView(auth: auth)
                 }
+            //clear out the errors
                 .onAppear {
                     auth.clearError()
                 }
